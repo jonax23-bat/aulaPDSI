@@ -7,20 +7,43 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+<!-- Barra de navegação principal -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a class="nav-logo" th:href="@{/}">🏫 Sistema Escolar MVC</a>
+        <ul class="nav-links">
+            <li><a class="active" th:href="@{/alunos}">Alunos</a></li>
+            <li><a th:href="@{/cursos}">Cursos</a></li>
+            <li><a th:href="@{/matriculas}">Matrículas</a></li>
+            <li><a th:href="@{/h2-console}" target="_blank">Console H2</a></li>
+        </ul>
+    </div>
+</nav>
+
 <main class="container">
+    <!-- Exibição de alertas de feedback -->
+    <div th:if="${mensagemSucesso}" class="alerta sucesso" th:text="${mensagemSucesso}"></div>
+    <div th:if="${mensagemErro}" class="alerta erro" th:text="${mensagemErro}"></div>
+
     <header class="topo">
         <div>
-            <h1>Cadastro de Alunos</h1>
-            <p>Exemplo didático de MVC com Java e Spring Boot</p>
+            <h1>Alunos Cadastrados</h1>
+            <p>Gerenciamento de alunos e verificação de RG</p>
         </div>
-        <a class="botao" th:href="@{/alunos/novo}">Novo aluno</a>
+        <div class="topo-botoes">
+            <a class="botao" th:href="@{/alunos/novo}">+ Novo Aluno</a>
+        </div>
     </header>
 
     <section class="card">
+        <!-- ========================================== -->
+        <!-- TABELA DE ALUNOS COM COLUNA RG -->
+        <!-- ========================================== -->
         <table>
             <thead>
             <tr>
                 <th>ID</th>
+                <!-- [PARTE 1] Coluna do RG -->
                 <th>RG</th>
                 <th>Nome</th>
                 <th>E-mail</th>
@@ -29,16 +52,17 @@
             </tr>
             </thead>
             <tbody>
+            <!-- Iteração sobre a lista de alunos enviada pelo Controller -->
             <tr th:each="aluno : ${alunos}">
                 <td th:text="${aluno.id}">1</td>
+                <!-- [PARTE 1] Exibição do RG formatado -->
                 <td th:text="${aluno.rgFormatado}">12.345.678-9</td>
                 <td th:text="${aluno.nome}">Ana Souza</td>
                 <td th:text="${aluno.email}">ana@email.com</td>
-                <td th:text="${aluno.curso}">Informática para Internet</td>
+                <td th:text="${aluno.curso != null ? aluno.curso : '-'}">Informática para Internet</td>
                 <td class="acoes">
                     <a class="botao secundario" th:href="@{/alunos/editar/{id}(id=${aluno.id})}">Editar</a>
-
-                    <form th:action="@{/alunos/excluir/{id}(id=${aluno.id})}" method="post">
+                    <form th:action="@{/alunos/excluir/{id}(id=${aluno.id})}" method="post" onsubmit="return confirm('Deseja realmente excluir este aluno?');">
                         <button class="botao perigo" type="submit">Excluir</button>
                     </form>
                 </td>
@@ -46,7 +70,7 @@
             </tbody>
         </table>
 
-        <p class="vazio" th:if="${#lists.isEmpty(alunos)}">Nenhum aluno cadastrado.</p>
+        <p class="vazio" th:if="${#lists.isEmpty(alunos)}">Nenhum aluno cadastrado no momento.</p>
     </section>
 </main>
 </body>

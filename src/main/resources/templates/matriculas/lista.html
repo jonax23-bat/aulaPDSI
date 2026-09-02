@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Matrículas</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<!-- Barra de navegação principal -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a class="nav-logo" th:href="@{/}">🏫 Sistema Escolar MVC</a>
+        <ul class="nav-links">
+            <li><a th:href="@{/alunos}">Alunos</a></li>
+            <li><a th:href="@{/cursos}">Cursos</a></li>
+            <li><a class="active" th:href="@{/matriculas}">Matrículas</a></li>
+            <li><a th:href="@{/h2-console}" target="_blank">Console H2</a></li>
+        </ul>
+    </div>
+</nav>
+
+<main class="container">
+    <div th:if="${mensagemSucesso}" class="alerta sucesso" th:text="${mensagemSucesso}"></div>
+    <div th:if="${mensagemErro}" class="alerta erro" th:text="${mensagemErro}"></div>
+
+    <header class="topo">
+        <div>
+            <h1>Matrículas Registradas</h1>
+            <p>Associação entre Alunos e Cursos com controle de status</p>
+        </div>
+        <div class="topo-botoes">
+            <a class="botao" th:href="@{/matriculas/nova}">+ Nova Matrícula</a>
+        </div>
+    </header>
+
+    <section class="card">
+        <!-- ========================================== -->
+        <!-- [DESAFIO] TABELA DE LISTAGEM DAS MATRÍCULAS -->
+        <!-- Exibe Aluno, RG, Curso, Data e Status da matrícula -->
+        <!-- ========================================== -->
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Aluno</th>
+                <th>RG do Aluno</th>
+                <th>Curso</th>
+                <th>Data da Matrícula</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="matricula : ${matriculas}">
+                <td th:text="${matricula.id}">1</td>
+                <td th:text="${matricula.aluno != null ? matricula.aluno.nome : '-'}">Ana Souza</td>
+                <td th:text="${matricula.aluno != null ? matricula.aluno.rgFormatado : '-'}">12.345.678-9</td>
+                <td th:text="${matricula.curso != null ? matricula.curso.nome : '-'}">Informática para Internet</td>
+                <td th:text="${matricula.dataMatricula != null ? #temporals.format(matricula.dataMatricula, 'dd/MM/yyyy') : '-'}">01/09/2026</td>
+                <td>
+                    <!-- Badge visual colorido pelo status da matrícula -->
+                    <span th:if="${matricula.status != null}"
+                          th:class="'badge ' + ${#strings.toLowerCase(matricula.status.name())}"
+                          th:text="${matricula.status.descricao}">Ativa</span>
+                </td>
+                <td class="acoes">
+                    <a class="botao secundario" th:href="@{/matriculas/editar/{id}(id=${matricula.id})}">Editar Status</a>
+                    <form th:action="@{/matriculas/excluir/{id}(id=${matricula.id})}" method="post" onsubmit="return confirm('Deseja realmente excluir esta matrícula?');">
+                        <button class="botao perigo" type="submit">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p class="vazio" th:if="${#lists.isEmpty(matriculas)}">Nenhuma matrícula registrada no momento.</p>
+    </section>
+</main>
+</body>
+</html>

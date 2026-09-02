@@ -3,50 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aluno</title>
+    <title>Formulário de Aluno</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+<!-- ========================================== -->
+<!-- BARRA DE NAVEGAÇÃO SUPERIOR -->
+<!-- ========================================== -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a class="nav-logo" th:href="@{/}">🏫 Sistema Escolar MVC</a>
+        <ul class="nav-links">
+            <li><a class="active" th:href="@{/alunos}">Alunos</a></li>
+            <li><a th:href="@{/cursos}">Cursos</a></li>
+            <li><a th:href="@{/matriculas}">Matrículas</a></li>
+            <li><a th:href="@{/h2-console}" target="_blank">Console H2</a></li>
+        </ul>
+    </div>
+</nav>
+
 <main class="container estreito">
+    <!-- Mensagens de Alerta e Erro de Validação -->
+    <div th:if="${mensagemErro}" class="alerta erro" th:text="${mensagemErro}"></div>
+
     <header class="topo">
         <div>
-            <h1 th:text="${aluno.id == null ? 'Novo aluno' : 'Editar aluno'}">Novo aluno</h1>
-            <p>Preencha os dados abaixo.</p>
+            <h1 th:text="${aluno.id == null ? 'Novo Aluno' : 'Editar Aluno'}">Novo Aluno</h1>
+            <p>Preencha os campos obrigatórios abaixo.</p>
         </div>
     </header>
 
     <section class="card">
+        <!-- ========================================== -->
+        <!-- FORMULÁRIO DE ALUNO (THYMELEAF) -->
+        <!-- ========================================== -->
         <form th:action="@{/alunos/salvar}" th:object="${aluno}" method="post" class="formulario">
             <input type="hidden" th:field="*{id}">
 
-            <label for="nome">Nome</label>
-            <input id="nome" type="text" th:field="*{nome}" required>
+            <div class="form-group">
+                <label for="nome">Nome Completo *</label>
+                <input id="nome" type="text" th:field="*{nome}" required placeholder="Ex: Ana Souza">
+            </div>
 
-            <label for="rg">RG:</label>
-            <input type="text" id="rg" th:field="*{rg}" maxlength="12" placeholder="00.000.000-0" oninput="mascaraRG(this)" />
+            <!-- ========================================== -->
+            <!-- [PARTE 1] CAMPO DE RG COM MÁSCARA AUTOMÁTICA -->
+            <!-- ========================================== -->
+            <div class="form-group">
+                <label for="rg">RG (somente números ou formatado) *</label>
+                <input id="rg" type="text" th:field="*{rg}" maxlength="12" placeholder="00.000.000-0" oninput="mascaraRG(this)" required>
+            </div>
 
-            <label for="email">E-mail</label>
-            <input id="email" type="email" th:field="*{email}" required>
+            <div class="form-group">
+                <label for="email">E-mail *</label>
+                <input id="email" type="email" th:field="*{email}" required placeholder="Ex: ana@email.com">
+            </div>
 
-            <label for="curso">Curso</label>
-            <input id="curso" type="text" th:field="*{curso}" required>
+            <div class="form-group">
+                <label for="curso">Curso de Interesse</label>
+                <input id="curso" type="text" th:field="*{curso}" placeholder="Ex: Informática para Internet">
+            </div>
 
             <div class="acoes-formulario">
                 <a class="botao secundario" th:href="@{/alunos}">Cancelar</a>
-                <button class="botao" type="submit">Salvar</button>
+                <button class="botao" type="submit">Salvar Aluno</button>
             </div>
         </form>
     </section>
 </main>
+
+<!-- ========================================== -->
+<!-- SCRIPT PARA APLICAÇÃO DA MÁSCARA DE RG (00.000.000-0) -->
+<!-- ========================================== -->
 <script>
     function mascaraRG(input) {
-        let valor = input.value.replace(/\D/g, ''); // Remove não dígitos
-
-        // Aplica a máscara progressivamente
+        let valor = input.value.replace(/\D/g, '');
         valor = valor.replace(/^(\d{2})(\d)/, '$1.$2');
         valor = valor.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
         valor = valor.replace(/\.(\d{3})(\d{1,2})$/, '.$1-$2');
-
         input.value = valor;
     }
 </script>

@@ -11,7 +11,12 @@ public class Aluno {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    // ==========================================
+    // [PARTE 1] NOVO ATRIBUTO: RG do Aluno
+    // ==========================================
     private String rg;
+
     private String nome;
     private String email;
     private String curso;
@@ -19,8 +24,15 @@ public class Aluno {
     public Aluno() {
     }
 
-    public Aluno(Long id,String rg, String nome, String email, String curso) {
+    public Aluno(Long id, String rg, String nome, String email, String curso) {
         this.id = id;
+        this.rg = rg;
+        this.nome = nome;
+        this.email = email;
+        this.curso = curso;
+    }
+
+    public Aluno(String rg, String nome, String email, String curso) {
         this.rg = rg;
         this.nome = nome;
         this.email = email;
@@ -35,14 +47,25 @@ public class Aluno {
         this.id = id;
     }
 
-    public String getRg() {return rg;}
+    // ==========================================
+    // [PARTE 1] GETTER E SETTER DO RG COM HIGIENIZAÇÃO
+    // ==========================================
+    public String getRg() {
+        return rg;
+    }
 
-    public void setRg(String rg){if (rg != null) {
-        this.rg = rg.replaceAll("\\D", ""); // Deixa apenas dígitos
-    } else {
-        this.rg = null;
-    }}
+    public void setRg(String rg) {
+        if (rg != null) {
+            // Remove pontos, traços e caracteres não numéricos para persistir limpo
+            this.rg = rg.replaceAll("\\D", "");
+        } else {
+            this.rg = null;
+        }
+    }
 
+    // ==========================================
+    // [PARTE 1] MÉTODO AUXILIAR PARA FORMATAÇÃO VISUAL DO RG (00.000.000-0)
+    // ==========================================
     public String getRgFormatado() {
         if (this.rg == null || this.rg.length() < 9) {
             return this.rg;

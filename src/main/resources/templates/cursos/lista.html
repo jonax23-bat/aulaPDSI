@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Cursos</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<!-- Barra de navegação principal -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a class="nav-logo" th:href="@{/}">🏫 Sistema Escolar MVC</a>
+        <ul class="nav-links">
+            <li><a th:href="@{/alunos}">Alunos</a></li>
+            <li><a class="active" th:href="@{/cursos}">Cursos</a></li>
+            <li><a th:href="@{/matriculas}">Matrículas</a></li>
+            <li><a th:href="@{/h2-console}" target="_blank">Console H2</a></li>
+        </ul>
+    </div>
+</nav>
+
+<main class="container">
+    <div th:if="${mensagemSucesso}" class="alerta sucesso" th:text="${mensagemSucesso}"></div>
+    <div th:if="${mensagemErro}" class="alerta erro" th:text="${mensagemErro}"></div>
+
+    <header class="topo">
+        <div>
+            <h1>Cursos Ofertados</h1>
+            <p>Gerenciamento de cursos e carga horária</p>
+        </div>
+        <div class="topo-botoes">
+            <a class="botao" th:href="@{/cursos/novo}">+ Novo Curso</a>
+        </div>
+    </header>
+
+    <section class="card">
+        <!-- ========================================== -->
+        <!-- [PARTE 2] TABELA DE LISTAGEM DE CURSOS -->
+        <!-- ========================================== -->
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome do Curso</th>
+                <th>Descrição</th>
+                <th>Carga Horária</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Iteração sobre os cursos enviados pelo CursoController -->
+            <tr th:each="curso : ${cursos}">
+                <td th:text="${curso.id}">1</td>
+                <td th:text="${curso.nome}">Desenvolvimento Web</td>
+                <td th:text="${curso.descricao != null and !curso.descricao.isEmpty() ? curso.descricao : '-'}">Descrição</td>
+                <td th:text="${curso.cargaHoraria + ' horas'}">120 horas</td>
+                <td class="acoes">
+                    <a class="botao secundario" th:href="@{/cursos/editar/{id}(id=${curso.id})}">Editar</a>
+                    <form th:action="@{/cursos/excluir/{id}(id=${curso.id})}" method="post" onsubmit="return confirm('Deseja realmente excluir este curso?');">
+                        <button class="botao perigo" type="submit">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p class="vazio" th:if="${#lists.isEmpty(cursos)}">Nenhum curso cadastrado no momento.</p>
+    </section>
+</main>
+</body>
+</html>
