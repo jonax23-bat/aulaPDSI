@@ -10,10 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-// ==========================================
-// [DESAFIO - CONTROLLER DE MATRÍCULAS]
-// Responsável pelas rotas de matrículas e por injetar as listas de alunos e cursos na View
-// ==========================================
+// Controller de rotas HTTP de Matrículas
 @Controller
 @RequestMapping("/matriculas")
 public class MatriculaController {
@@ -30,18 +27,14 @@ public class MatriculaController {
         this.cursoService = cursoService;
     }
 
-    // ==========================================
-    // [GET /matriculas] Listagem de todas as matrículas
-    // ==========================================
+    // Listagem de todas as matrículas
     @GetMapping
     public String listar(Model model) {
         model.addAttribute("matriculas", matriculaService.listarTodas());
         return "matriculas/lista";
     }
 
-    // ==========================================
-    // [GET /matriculas/nova] Abrir formulário para nova matrícula
-    // ==========================================
+    // Formulário para nova matrícula
     @GetMapping("/nova")
     public String nova(Model model) {
         if (!model.containsAttribute("matricula")) {
@@ -51,9 +44,7 @@ public class MatriculaController {
         return "matriculas/formulario";
     }
 
-    // ==========================================
-    // [POST /matriculas/salvar] Salvar ou atualizar matrícula com validação de duplicidade
-    // ==========================================
+    // Salvar ou atualizar matrícula
     @PostMapping("/salvar")
     public String salvar(@ModelAttribute Matricula matricula, RedirectAttributes redirectAttributes, Model model) {
         try {
@@ -68,9 +59,7 @@ public class MatriculaController {
         }
     }
 
-    // ==========================================
-    // [GET /matriculas/editar/{id}] Abrir formulário para editar status/dados da matrícula
-    // ==========================================
+    // Formulário para edição de matrícula
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         try {
@@ -85,9 +74,7 @@ public class MatriculaController {
         }
     }
 
-    // ==========================================
-    // [POST /matriculas/excluir/{id}] Excluir matrícula
-    // ==========================================
+    // Exclusão de matrícula
     @PostMapping("/excluir/{id}")
     public String excluir(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {

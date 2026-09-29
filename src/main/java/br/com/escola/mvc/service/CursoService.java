@@ -7,10 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-// ==========================================
-// [PARTE 2 - SERVICE DE CURSO]
-// Camada onde residem as regras de negócio e validações
-// ==========================================
+// Camada de regras de negócio e validações de Curso
 @Service
 public class CursoService {
 
@@ -41,10 +38,7 @@ public class CursoService {
             throw new IllegalArgumentException("Curso não encontrado com ID: " + id);
         }
 
-        // ==========================================
-        // [DESAFIO / INTEGRIDADE REFERENCIAL]
-        // Bloqueia a exclusão caso existam matrículas associadas a este curso
-        // ==========================================
+        // Bloqueia a exclusão caso existam matrículas associadas
         if (!matriculaRepository.findByCursoId(id).isEmpty()) {
             throw new IllegalArgumentException("Não é possível excluir este curso pois existem matrículas vinculadas a ele.");
         }
@@ -52,16 +46,14 @@ public class CursoService {
         repository.deleteById(id);
     }
 
-    // ==========================================
-    // [PARTE 2] VALIDAÇÕES DE REGRAS DE NEGÓCIO DE CURSO
-    // ==========================================
+    // Validações de regras de negócio de Curso
     private void validar(Curso curso) {
-        // Regra 1: Nome do curso é obrigatório
+        // Nome do curso obrigatório
         if (curso.getNome() == null || curso.getNome().trim().isEmpty()) {
             throw new IllegalArgumentException("O nome do curso é obrigatório.");
         }
 
-        // Regra 2: Carga horária deve ser informada e maior que zero (> 0)
+        // Carga horária positiva obrigatória
         if (curso.getCargaHoraria() == null || curso.getCargaHoraria() <= 0) {
             throw new IllegalArgumentException("A carga horária deve ser informada e maior que zero.");
         }

@@ -5,10 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
-// ==========================================
-// [DESAFIO - ENTIDADE MATRÍCULA]
-// Representa a associação (Muitos-para-Um) entre Aluno e Curso com JPA
-// ==========================================
+// Entidade de associação entre Aluno e Curso
 @Entity
 @Table(name = "matriculas")
 public class Matricula {
@@ -17,16 +14,12 @@ public class Matricula {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // ==========================================
-    // [DESAFIO] RELACIONAMENTO: Muitas matrículas pertencem a UM aluno
-    // ==========================================
+    // Relacionamento com Aluno
     @ManyToOne(optional = false)
     @JoinColumn(name = "aluno_id", nullable = false)
     private Aluno aluno;
 
-    // ==========================================
-    // [DESAFIO] RELACIONAMENTO: Muitas matrículas pertencem a UM curso
-    // ==========================================
+    // Relacionamento com Curso
     @ManyToOne(optional = false)
     @JoinColumn(name = "curso_id", nullable = false)
     private Curso curso;

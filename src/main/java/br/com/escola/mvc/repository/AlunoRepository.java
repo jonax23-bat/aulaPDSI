@@ -9,9 +9,7 @@ import java.util.Optional;
 @Repository
 public interface AlunoRepository extends JpaRepository<Aluno, Long> {
 
-    // ==========================================
-    // [PARTE 1] MÉTODOS DERIVADOS PARA BUSCA E VALIDAÇÃO DE RG ÚNICO
-    // ==========================================
+    // Métodos para validação de unicidade de RG
 
     // Verifica se já existe algum aluno com determinado RG
     boolean existsByRg(String rg);

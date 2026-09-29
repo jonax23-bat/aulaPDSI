@@ -7,9 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<!-- ========================================== -->
-<!-- BARRA DE NAVEGAÇÃO SUPERIOR -->
-<!-- ========================================== -->
+<!-- Barra de navegação -->
 <nav class="navbar">
     <div class="nav-container">
         <a class="nav-logo" th:href="@{/}">🏫 Sistema Escolar MVC</a>
@@ -34,9 +32,7 @@
     </header>
 
     <section class="card">
-        <!-- ========================================== -->
-        <!-- FORMULÁRIO DE ALUNO (THYMELEAF) -->
-        <!-- ========================================== -->
+        <!-- Formulário de Aluno -->
         <form th:action="@{/alunos/salvar}" th:object="${aluno}" method="post" class="formulario">
             <input type="hidden" th:field="*{id}">
 
@@ -45,9 +41,7 @@
                 <input id="nome" type="text" th:field="*{nome}" required placeholder="Ex: Ana Souza">
             </div>
 
-            <!-- ========================================== -->
-            <!-- [PARTE 1] CAMPO DE RG COM MÁSCARA AUTOMÁTICA -->
-            <!-- ========================================== -->
+            <!-- Campo de RG com máscara automática -->
             <div class="form-group">
                 <label for="rg">RG (somente números ou formatado) *</label>
                 <input id="rg" type="text" th:field="*{rg}" maxlength="12" placeholder="00.000.000-0" oninput="mascaraRG(this)" required>
@@ -71,9 +65,7 @@
     </section>
 </main>
 
-<!-- ========================================== -->
-<!-- SCRIPT PARA APLICAÇÃO DA MÁSCARA DE RG (00.000.000-0) -->
-<!-- ========================================== -->
+<!-- Máscara de formatação do RG -->
 <script>
     function mascaraRG(input) {
         let valor = input.value.replace(/\D/g, '');

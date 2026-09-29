@@ -10,23 +10,16 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-// ==========================================
-// [DESAFIO - REPOSITORY DE MATRÍCULA]
-// Métodos derivados do Spring Data JPA para consultas com filtros
-// ==========================================
+// Repositório de consultas e persistência de Matrícula
 @Repository
 public interface MatriculaRepository extends JpaRepository<Matricula, Long> {
 
-    // ==========================================
-    // [DESAFIO] Consulta para validar duplicidade de matrícula ativa para o mesmo aluno e curso
-    // ==========================================
+    // Validação de duplicidade de matrícula ativa
     boolean existsByAlunoAndCursoAndStatus(Aluno aluno, Curso curso, StatusMatricula status);
 
     Optional<Matricula> findByAlunoAndCursoAndStatus(Aluno aluno, Curso curso, StatusMatricula status);
 
-    // ==========================================
-    // [DESAFIO] Consultas para proteção de exclusão (integridade referencial)
-    // ==========================================
+    // Consultas para integridade referencial
     List<Matricula> findByCursoId(Long cursoId);
 
     List<Matricula> findByAlunoId(Long alunoId);

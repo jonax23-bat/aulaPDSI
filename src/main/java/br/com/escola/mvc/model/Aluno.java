@@ -12,9 +12,7 @@ public class Aluno {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // ==========================================
-    // [PARTE 1] NOVO ATRIBUTO: RG do Aluno
-    // ==========================================
+    // Documento de identificação (RG)
     private String rg;
 
     private String nome;
@@ -47,25 +45,20 @@ public class Aluno {
         this.id = id;
     }
 
-    // ==========================================
-    // [PARTE 1] GETTER E SETTER DO RG COM HIGIENIZAÇÃO
-    // ==========================================
+    // Getter e Setter de RG
     public String getRg() {
         return rg;
     }
 
     public void setRg(String rg) {
         if (rg != null) {
-            // Remove pontos, traços e caracteres não numéricos para persistir limpo
             this.rg = rg.replaceAll("\\D", "");
         } else {
             this.rg = null;
         }
     }
 
-    // ==========================================
-    // [PARTE 1] MÉTODO AUXILIAR PARA FORMATAÇÃO VISUAL DO RG (00.000.000-0)
-    // ==========================================
+    // Formatação visual do RG (00.000.000-0)
     public String getRgFormatado() {
         if (this.rg == null || this.rg.length() < 9) {
             return this.rg;

@@ -35,9 +35,7 @@
     </header>
 
     <section class="card">
-        <!-- ========================================== -->
-        <!-- [PARTE 2] TABELA DE LISTAGEM DE CURSOS -->
-        <!-- ========================================== -->
+        <!-- Tabela de Cursos -->
         <table>
             <thead>
             <tr>
@@ -49,7 +47,7 @@
             </tr>
             </thead>
             <tbody>
-            <!-- Iteração sobre os cursos enviados pelo CursoController -->
+            <!-- Listagem de cursos -->
             <tr th:each="curso : ${cursos}">
                 <td th:text="${curso.id}">1</td>
                 <td th:text="${curso.nome}">Desenvolvimento Web</td>

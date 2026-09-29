@@ -31,9 +31,7 @@
     </header>
 
     <section class="card">
-        <!-- ========================================== -->
-        <!-- [DESAFIO] FORMULÁRIO DE MATRÍCULA COM SELECTS DINÂMICOS -->
-        <!-- ========================================== -->
+        <!-- Formulário de Matrícula -->
         <form th:action="@{/matriculas/salvar}" th:object="${matricula}" method="post" class="formulario">
             <input type="hidden" th:field="*{id}">
 

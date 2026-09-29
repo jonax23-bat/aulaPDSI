@@ -17,18 +17,14 @@ public class AlunoController {
         this.service = service;
     }
 
-    // ==========================================
-    // [GET /alunos] Listagem de todos os alunos
-    // ==========================================
+    // Listagem de todos os alunos
     @GetMapping
     public String listar(Model model) {
         model.addAttribute("alunos", service.listarTodos());
         return "alunos/lista";
     }
 
-    // ==========================================
-    // [GET /alunos/novo] Abertura do formulário de novo aluno
-    // ==========================================
+    // Formulário de novo aluno
     @GetMapping("/novo")
     public String novo(Model model) {
         if (!model.containsAttribute("aluno")) {
@@ -37,9 +33,7 @@ public class AlunoController {
         return "alunos/formulario";
     }
 
-    // ==========================================
-    // [POST /alunos/salvar] Salvar ou atualizar aluno com captura de mensagens de validação
-    // ==========================================
+    // Salvar ou atualizar aluno
     @PostMapping("/salvar")
     public String salvar(@ModelAttribute Aluno aluno, RedirectAttributes redirectAttributes, Model model) {
         try {
@@ -47,16 +41,13 @@ public class AlunoController {
             redirectAttributes.addFlashAttribute("mensagemSucesso", "Aluno salvo com sucesso!");
             return "redirect:/alunos";
         } catch (IllegalArgumentException e) {
-            // Se houver erro de validação (ex: RG duplicado ou vazio), retorna ao formulário com o erro
             model.addAttribute("mensagemErro", e.getMessage());
             model.addAttribute("aluno", aluno);
             return "alunos/formulario";
         }
     }
 
-    // ==========================================
-    // [GET /alunos/editar/{id}] Formulário de edição de aluno
-    // ==========================================
+    // Formulário de edição de aluno
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         try {
@@ -70,9 +61,7 @@ public class AlunoController {
         }
     }
 
-    // ==========================================
-    // [POST /alunos/excluir/{id}] Exclusão de aluno
-    // ==========================================
+    // Exclusão de aluno
     @PostMapping("/excluir/{id}")
     public String excluir(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {

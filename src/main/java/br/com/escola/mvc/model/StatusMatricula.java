@@ -1,9 +1,6 @@
 package br.com.escola.mvc.model;
 
-// ==========================================
-// [DESAFIO - ENUM STATUS DA MATRÍCULA]
-// Representa os estados possíveis de uma matrícula no sistema
-// ==========================================
+// Estados possíveis de uma matrícula
 public enum StatusMatricula {
     ATIVA("Ativa"),
     TRANCADA("Trancada"),

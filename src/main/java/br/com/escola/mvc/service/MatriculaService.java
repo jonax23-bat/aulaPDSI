@@ -13,10 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-// ==========================================
-// [DESAFIO - SERVICE DE MATRÍCULA]
-// Camada onde são aplicadas todas as regras e restrições de matrícula
-// ==========================================
+// Service com regras de negócio e restrições de matrícula
 @Service
 public class MatriculaService {
 
@@ -59,16 +56,14 @@ public class MatriculaService {
         matriculaRepository.deleteById(id);
     }
 
-    // ==========================================
-    // [DESAFIO] REGRAS DE NEGÓCIO E VALIDAÇÕES DA MATRÍCULA
-    // ==========================================
+    // Regras de negócio e validações da matrícula
     private void validar(Matricula matricula) {
-        // Regra 1: Aluno selecionado deve existir
+        // Validação de aluno obrigatório
         if (matricula.getAluno() == null || matricula.getAluno().getId() == null) {
             throw new IllegalArgumentException("É obrigatório selecionar um aluno.");
         }
 
-        // Regra 2: Curso selecionado deve existir
+        // Validação de curso obrigatório
         if (matricula.getCurso() == null || matricula.getCurso().getId() == null) {
             throw new IllegalArgumentException("É obrigatório selecionar um curso.");
         }
@@ -82,19 +77,17 @@ public class MatriculaService {
         matricula.setAluno(aluno);
         matricula.setCurso(curso);
 
-        // Regra 3: Data da matrícula padrão (hoje) caso não informada
+        // Data da matrícula padrão (hoje) caso não informada
         if (matricula.getDataMatricula() == null) {
             matricula.setDataMatricula(LocalDate.now());
         }
 
-        // Regra 4: Toda nova matrícula deve iniciar com status ATIVA por padrão
+        // Toda nova matrícula deve iniciar com status ATIVA por padrão
         if (matricula.getStatus() == null) {
             matricula.setStatus(StatusMatricula.ATIVA);
         }
 
-        // ==========================================
-        // [DESAFIO] REGRA PRINCIPAL: NÃO PERMITIR DUAS MATRÍCULAS ATIVAS DO MESMO ALUNO NO MESMO CURSO
-        // ==========================================
+        // Não permite duas matrículas ativas do mesmo aluno no mesmo curso
         if (matricula.getStatus() == StatusMatricula.ATIVA) {
             Optional<Matricula> matriculaAtivaExistente = matriculaRepository.findByAlunoAndCursoAndStatus(
                     aluno, curso, StatusMatricula.ATIVA
@@ -102,7 +95,6 @@ public class MatriculaService {
 
             if (matriculaAtivaExistente.isPresent()) {
                 Matricula existente = matriculaAtivaExistente.get();
-                // Bloqueia se for nova matrícula ou se o ID for de outra matrícula diferente da que está sendo editada
                 if (matricula.getId() == null || !existente.getId().equals(matricula.getId())) {
                     throw new IllegalArgumentException("O aluno " + aluno.getNome() + " já possui uma matrícula ATIVA no curso " + curso.getNome() + ".");
                 }

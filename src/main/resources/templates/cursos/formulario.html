@@ -31,9 +31,7 @@
     </header>
 
     <section class="card">
-        <!-- ========================================== -->
-        <!-- [PARTE 2] FORMULÁRIO DE CADASTRO E EDIÇÃO DE CURSO -->
-        <!-- ========================================== -->
+        <!-- Formulário de Curso -->
         <form th:action="@{/cursos/salvar}" th:object="${curso}" method="post" class="formulario">
             <input type="hidden" th:field="*{id}">
 

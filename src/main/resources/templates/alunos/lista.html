@@ -36,14 +36,11 @@
     </header>
 
     <section class="card">
-        <!-- ========================================== -->
-        <!-- TABELA DE ALUNOS COM COLUNA RG -->
-        <!-- ========================================== -->
+        <!-- Tabela de Alunos -->
         <table>
             <thead>
             <tr>
                 <th>ID</th>
-                <!-- [PARTE 1] Coluna do RG -->
                 <th>RG</th>
                 <th>Nome</th>
                 <th>E-mail</th>
@@ -52,10 +49,9 @@
             </tr>
             </thead>
             <tbody>
-            <!-- Iteração sobre a lista de alunos enviada pelo Controller -->
+            <!-- Listagem de alunos -->
             <tr th:each="aluno : ${alunos}">
                 <td th:text="${aluno.id}">1</td>
-                <!-- [PARTE 1] Exibição do RG formatado -->
                 <td th:text="${aluno.rgFormatado}">12.345.678-9</td>
                 <td th:text="${aluno.nome}">Ana Souza</td>
                 <td th:text="${aluno.email}">ana@email.com</td>

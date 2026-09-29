@@ -6,10 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-// ==========================================
-// [PARTE 2 - ENTIDADE CURSO]
-// Mapeia a tabela "cursos" no banco de dados H2
-// ==========================================
+// Entidade de Curso
 @Entity
 @Table(name = "cursos")
 public class Curso {
